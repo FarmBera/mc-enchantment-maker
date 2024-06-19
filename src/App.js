@@ -33,7 +33,16 @@ function App() {
   const [viewTool, setViewTool] = useState([]);
   const [viewEnchant, setViewEnchant] = useState([]);
 
-  useEffect(() => {}, []);
+  const [filter, setFilter] = useState({
+    chkbox1: true,
+    chkbox2: false,
+    chkbox3: false,
+    chkbox4: false,
+  });
+
+  useEffect(() => {
+    setFilter();
+  }, []);
 
   // click
   const handleClickType = (e) => {
@@ -87,6 +96,12 @@ function App() {
     }
   };
 
+  // 필터 변경 처리ㄴ
+  const handleFilterChange = (e) => {
+    const { id, checked } = e.target;
+    setFilter({ ...filter, [id]: checked });
+  };
+
   return (
     <Container>
       <div className="App">
@@ -115,7 +130,7 @@ function App() {
           </div>
         </BtnContainer>
 
-        <FilterContainer>
+        {/* <FilterContainer>
           <div className="filter-container">
             <div class="chkbox-container">
               <span className="chkbox-title">Enchant Filter</span>
@@ -154,6 +169,34 @@ function App() {
                 className="chkbox4"
               />
               <label for="chkbox4" className="chkbox-label">
+                Infinite
+              </label>
+            </div>
+          </div>
+        </FilterContainer> */}
+        <FilterContainer>
+          <div className="filter-container">
+            <div className="chkbox-container">
+              <span className="chkbox-title">Enchant Filter</span>
+              <input
+                type="checkbox"
+                id="chkbox1"
+                className="chkbox1"
+                defaultChecked
+              />
+              <label htmlFor="chkbox1" className="chkbox-label">
+                Survival Max
+              </label>
+              <input type="checkbox" id="chkbox2" className="chkbox2" />
+              <label htmlFor="chkbox2" className="chkbox-label">
+                up to 10
+              </label>
+              <input type="checkbox" id="chkbox3" className="chkbox3" />
+              <label htmlFor="chkbox3" className="chkbox-label">
+                up to 100
+              </label>
+              <input type="checkbox" id="chkbox4" className="chkbox4" />
+              <label htmlFor="chkbox4" className="chkbox-label">
                 Infinite
               </label>
             </div>

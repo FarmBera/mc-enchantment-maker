@@ -97,10 +97,10 @@ const Column = styled.div`
   }
 
   li > span {
-    background-color: #ff0;
+    /* background-color: #ff0; */
   }
   li > span:hover {
-    background-color: #0f0;
+    background-color: #999;
   }
   li > span:active {
     background-color: #0ff;
