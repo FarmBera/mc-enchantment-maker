@@ -9,7 +9,7 @@ import ColorFolder from "./data/ColorFolder";
 
 // data
 import tool_type from "./data/tool_type";
-import tool_shape from "./data/tool_shape";
+import tool_material from "./data/tool_material";
 import enchant_list from "./data/enchant_list";
 
 // screen
@@ -24,28 +24,72 @@ const TIMEZONE = "Asia/Seoul";
 
 function App() {
   const [isOutput, setIsOutput] = useState(false); // 출력모드 / 입력받는 모드 전환 (조합하는 모드)
+  const [toolMaterial, setToolMaterial] = useState(tool_material);
   const [toolType, setToolType] = useState(tool_type);
-  const [toolShape, setToolShape] = useState(tool_shape);
-  const [enchantList, setEnchantList] = useState(enchant_list);
-  const [outText, setOutText] = useState("COMMAND OUTPUT AREA");
+  const [enchantList, setToolEnchant] = useState(enchant_list);
+  const [outText, setOutText] = useState(["COMMAND", "OUTPUT", "AREA"]);
+
+  const [viewMaterial, setViewMaterial] = useState([]);
+  const [viewTool, setViewTool] = useState([]);
+  const [viewEnchant, setViewEnchant] = useState([]);
 
   useEffect(() => {}, []);
+
+  // click
+  const handleClickType = (e) => {
+    console.log(e.target.textContent);
+    setViewTool([e.target.textContent]);
+  };
+  const handleClickMaterial = (e) => {
+    console.log(e.target.textContent);
+    setViewMaterial([e.target.textContent]);
+  };
+  const handleClickEnchant = (e) => {
+    let item = e.target.textContent;
+    console.log(item);
+    if (!viewEnchant.includes(item)) {
+      setViewEnchant([...viewEnchant, item]);
+    }
+    setViewEnchant([...viewEnchant, e.target.textContent]);
+  };
+
+  // clear
+  const handleClearMat = () => {
+    setViewMaterial([]);
+  };
+  const handleClearType = () => {
+    setViewTool([]);
+  };
+  const handleClearEnch = () => {
+    setViewEnchant([]);
+  };
+  const handleClear = () => {
+    setViewTool([]);
+    setViewMaterial([]);
+    setViewEnchant([]);
+  };
 
   return (
     <Container>
       <div className="App">
         <Headers />
         <span>BODY AREA</span>
-        <Output cmdState={isOutput} CommandOutputTxt={outText} />
+        <Output
+          cmdState={isOutput}
+          CommandOutputTxt={outText}
+          viewMaterial={viewMaterial}
+          viewTool={viewTool}
+          viewEnchant={viewEnchant}
+        />
 
         <BtnContainer>
           <div className="btn-container">
             <div className="btn-sub-container">
-              <button>Clear Type</button>
-              <button>Clear Material</button>
-              <button>Clear Element</button>
+              <button onClick={handleClearMat}>Clear Material</button>
+              <button onClick={handleClearType}>Clear Type</button>
+              <button onClick={handleClearEnch}>Clear Element</button>
             </div>
-            <button>Clear ALL</button>
+            <button onClick={handleClear}>Clear ALL</button>
             <button className="submit">Create Command!</button>
           </div>
         </BtnContainer>
@@ -97,8 +141,11 @@ function App() {
 
         <PrintArray
           toolType={toolType}
-          toolShape={toolShape}
+          toolMaterial={toolMaterial}
           enchantList={enchantList}
+          handleClickType={handleClickType}
+          handleClickMaterial={handleClickMaterial}
+          handleClickEnchant={handleClickEnchant}
         />
       </div>
     </Container>

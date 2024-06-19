@@ -9,7 +9,14 @@ import ColorFolder from "../data/ColorFolder";
 
 // variables
 
-function PrintArray({ toolType, toolShape, enchantList }) {
+function PrintArray({
+  toolType,
+  toolMaterial,
+  enchantList,
+  handleClickType,
+  handleClickMaterial,
+  handleClickEnchant,
+}) {
   // const [toolType, setToolType] = useState([tool_type]);
 
   return (
@@ -17,18 +24,22 @@ function PrintArray({ toolType, toolShape, enchantList }) {
       <OuterContainer>
         <InnerContainer>
           <Column>
-            <span>Tool Type</span>
+            <span>Tool Material</span>
             <ul>
-              {toolType.map((item, index) => (
-                <li key={index}>{item}</li>
+              {toolMaterial.map((item, index) => (
+                <li key={index}>
+                  <span onClick={handleClickMaterial}>{item}</span>
+                </li>
               ))}
             </ul>
           </Column>
           <Column>
-            <span>Tool Material</span>
+            <span>Tool Type</span>
             <ul>
-              {toolShape.map((item, index) => (
-                <li key={index}>{item}</li>
+              {toolType.map((item, index) => (
+                <li key={index}>
+                  <span onClick={handleClickType}>{item}</span>
+                </li>
               ))}
             </ul>
           </Column>
@@ -36,7 +47,9 @@ function PrintArray({ toolType, toolShape, enchantList }) {
             <span>Enchantments</span>
             <ul>
               {enchantList.map((item, index) => (
-                <li key={index}>{item.name}</li>
+                <li key={index}>
+                  <span onClick={handleClickEnchant}>{item.name}</span>
+                </li>
               ))}
             </ul>
           </Column>
@@ -68,6 +81,16 @@ const Column = styled.div`
   width: 50px;
   &:not(:last-child) {
     margin-right: 10px;
+  }
+
+  li > span {
+    background-color: #ff0;
+  }
+  li > span:hover {
+    background-color: #0f0;
+  }
+  li > span:active {
+    background-color: #0ff;
   }
 `;
 
