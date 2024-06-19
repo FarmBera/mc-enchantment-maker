@@ -15,13 +15,13 @@ const enchant_list = [
   // # unbreaking
   {
     name: "unbreaking",
-    id: "NULL",
-    lvl: 0,
-    origin: '{id:"efficiency",lvl:5}',
+    id: "unbreaking",
+    lvl: 3,
+    origin: '{id:"unbreaking",lvl:3}',
   },
   {
     name: "unbreakingX",
-    id: "NULL",
+    id: "unbreaking",
     lvl: 0,
     origin: '{id:"efficiency",lvl:1000}',
   },

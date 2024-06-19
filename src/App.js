@@ -27,7 +27,7 @@ function App() {
   const [toolMaterial, setToolMaterial] = useState(tool_material);
   const [toolType, setToolType] = useState(tool_type);
   const [enchantList, setToolEnchant] = useState(enchant_list);
-  const [outText, setOutText] = useState(["COMMAND", "OUTPUT", "AREA"]);
+  // const [outText, setOutText] = useState(["COMMAND", "OUTPUT", "AREA"]);
 
   const [viewMaterial, setViewMaterial] = useState([]);
   const [viewTool, setViewTool] = useState([]);
@@ -50,7 +50,7 @@ function App() {
 
     // 중복된 항목이라면 추가하지 않음
     // if (!viewEnchant.includes(item)) setViewEnchant([...viewEnchant, item]);
-
+    // 배열에 항목이 존재하는지 여부에 따라 분기
     if (viewEnchant.includes(item))
       // 이미 배열에 있는 항목이면 제거
       setViewEnchant(viewEnchant.filter((enchant) => enchant !== item));
@@ -90,11 +90,13 @@ function App() {
   return (
     <Container>
       <div className="App">
-        <Headers />
-        <span>BODY AREA</span>
+        {/* Header Area */}
+        {/* <Headers /> */}
+
+        {/* BODY AREA */}
         <Output
           cmdState={isOutput}
-          CommandOutputTxt={outText}
+          // CommandOutputTxt={outText}
           viewMaterial={viewMaterial}
           viewTool={viewTool}
           viewEnchant={viewEnchant}

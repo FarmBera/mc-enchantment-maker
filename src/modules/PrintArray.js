@@ -43,6 +43,7 @@ function PrintArray({
             <ul>
               {toolType.map((item, index) => (
                 <li key={index}>
+                  <img src={diamond} width={imgWidth} />
                   <span onClick={handleClickType}>{item}</span>
                 </li>
               ))}
@@ -54,6 +55,7 @@ function PrintArray({
             <ul>
               {enchantList.map((item, index) => (
                 <li key={index}>
+                  <img src={diamond} width={imgWidth} />
                   <span onClick={handleClickEnchant}>{item.name}</span>
                 </li>
               ))}
