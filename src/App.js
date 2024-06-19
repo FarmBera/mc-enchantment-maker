@@ -47,10 +47,17 @@ function App() {
   const handleClickEnchant = (e) => {
     let item = e.target.textContent;
     console.log(item);
-    if (!viewEnchant.includes(item)) {
+
+    // 중복된 항목이라면 추가하지 않음
+    // if (!viewEnchant.includes(item)) setViewEnchant([...viewEnchant, item]);
+
+    if (viewEnchant.includes(item))
+      // 이미 배열에 있는 항목이면 제거
+      setViewEnchant(viewEnchant.filter((enchant) => enchant !== item));
+    else {
+      // 배열에 없는 항목이면 추가
       setViewEnchant([...viewEnchant, item]);
     }
-    setViewEnchant([...viewEnchant, e.target.textContent]);
   };
 
   // clear
@@ -69,6 +76,17 @@ function App() {
     setViewEnchant([]);
   };
 
+  // Output.js item clear
+  const handleItemClick = (item, type) => {
+    if (type === "tool") {
+      setViewTool(viewTool.filter((tool) => tool !== item));
+    } else if (type === "material") {
+      setViewMaterial(viewMaterial.filter((material) => material !== item));
+    } else if (type === "enchant") {
+      setViewEnchant(viewEnchant.filter((enchant) => enchant !== item));
+    }
+  };
+
   return (
     <Container>
       <div className="App">
@@ -80,6 +98,7 @@ function App() {
           viewMaterial={viewMaterial}
           viewTool={viewTool}
           viewEnchant={viewEnchant}
+          onItemClick={handleItemClick}
         />
 
         <BtnContainer>

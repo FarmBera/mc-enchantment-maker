@@ -4,6 +4,7 @@ import Clock from "react-live-clock";
 
 // color
 import ColorFolder from "../data/ColorFolder";
+import diamond from "../icon/diamond.png";
 
 // modules
 
@@ -19,6 +20,8 @@ function PrintArray({
 }) {
   // const [toolType, setToolType] = useState([tool_type]);
 
+  const imgWidth = 20;
+
   return (
     <div className="PrintArray">
       <OuterContainer>
@@ -28,11 +31,13 @@ function PrintArray({
             <ul>
               {toolMaterial.map((item, index) => (
                 <li key={index}>
+                  <img src={diamond} width={imgWidth} />
                   <span onClick={handleClickMaterial}>{item}</span>
                 </li>
               ))}
             </ul>
           </Column>
+
           <Column>
             <span>Tool Type</span>
             <ul>
@@ -43,6 +48,7 @@ function PrintArray({
               ))}
             </ul>
           </Column>
+
           <Column>
             <span>Enchantments</span>
             <ul>
@@ -79,6 +85,11 @@ const Column = styled.div`
   border: 1px solid #ccc;
   box-sizing: border-box;
   width: 50px;
+  /* height: 150px; */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
   &:not(:last-child) {
     margin-right: 10px;
   }
