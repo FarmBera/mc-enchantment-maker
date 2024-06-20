@@ -4,7 +4,6 @@ import Clock from "react-live-clock";
 
 // color
 import ColorFolder from "../data/ColorFolder";
-import diamond from "../icon/diamond.png";
 
 const loadingImg = await getImage("barrier");
 
@@ -12,11 +11,7 @@ const loadingImg = await getImage("barrier");
 async function getImage(imgName, ext) {
   let module;
 
-  // console.log(ext);
-  // console.log(`../icon/${imgName}.${ext}`);
-
-  if (ext) module = await import(`../icon/${imgName}.${ext}`);
-  else module = await import(`../icon/${imgName}.png`);
+  module = await import(`../icon/${imgName}.gif`);
 
   return module.default;
 }
@@ -32,7 +27,7 @@ function Image({ name, ext, size = 30 }) {
     async function fetchImage(name) {
       // console.log(name);
       try {
-        const imageData = await getImage(name, ext);
+        const imageData = await getImage(name);
         if (imageData) setImg(imageData);
       } catch (e) {
         const tempImage = await getImage("barrier");

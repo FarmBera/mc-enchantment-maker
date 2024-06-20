@@ -4,7 +4,6 @@ import Clock from "react-live-clock";
 
 // color
 import ColorFolder from "../data/ColorFolder";
-import diamond from "../icon/diamond.png";
 
 // modeuls
 import Image from "../modules/Image";
@@ -80,15 +79,16 @@ const OuterContainer = styled.div`
 `;
 
 const InnerContainer = styled.div`
+  /* text-decoration: none; */
   display: flex;
-  width: 900px;
+  width: 800px;
   text-align: center;
   justify-content: space-around; /* 각 컬럼 간 간격을 균등하게 */
   /* border: 10px solid #f00; */
 `;
 
 const Column = styled.div`
-  text-decoration: none;
+  /* text-decoration: none; */
   flex: 1;
   padding: 20px;
   border: 1px solid #ccc;
@@ -103,14 +103,37 @@ const Column = styled.div`
     margin-right: 10px;
   }
 
-  li {
+  &.li {
+    text-decoration: none;
     /* background-color: #ff0; */
   }
   li:hover {
+    /* text-decoration: none; */
     background-color: #999;
   }
   li:active {
     background-color: #0ff;
+  }
+
+  ul {
+    list-style-type: none; // 리스트 점 제거
+    padding: 0; // 기본 패딩 제거
+    margin: 0; // 기본 마진 제거
+    text-align: center;
+  }
+
+  li {
+    display: flex; // 이미지와 텍스트를 나란히 배치
+    align-items: center; // 수직 정렬
+    cursor: pointer; // 클릭 가능한 커서 표시
+
+    &:hover {
+      // 호버 효과 추가 가능
+    }
+
+    span {
+      margin-left: 8px; // 이미지와 텍스트 사이의 간격 조절
+    }
   }
 `;
 

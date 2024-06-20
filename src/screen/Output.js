@@ -6,34 +6,33 @@ import ColorFolder from "../data/ColorFolder";
 
 import Variable from "../data/data";
 
-import diamond from "../icon/diamond.png";
 import Image from "../modules/Image";
 
-function Listed({ array, type, onItemClick, ext }) {
+// 목록 출력해주는 함수
+function Listed({ array, type, onItemClick, ext, size }) {
   return array.map((item, index) => (
     <span key={index} onClick={() => onItemClick(item, type)}>
-      <Image name={type === "enchant" ? `${type}ed_book` : item} ext={ext} />
-      {item}
+      <Image
+        name={type === "enchant" ? `${type}ed_book` : item}
+        ext={ext}
+        size={size}
+      />
+      {/* {item} */}
+      <p>{item}</p>
     </span>
   ));
 }
 
 function Output({
-  cmdState,
   CommandOutputTxt,
   viewTool,
   viewMaterial,
   viewEnchant,
   onItemClick,
 }) {
-  const [isOutput, setIsOutput] = useState(false); // 출력모드 / 입력받는 모드 전환 (조합하는 모드)
-  const [cmdOutTxt, setCmdOutTxt] = useState(CommandOutputTxt); // 최종 출력 모드일 때 출력되는 텍스트
+  useEffect(() => {}, []);
 
-  useEffect(() => {
-    setIsOutput(cmdState);
-  }, []);
-
-  const imgWidth = 25;
+  const imgWidth = 90;
 
   return (
     // <div className="">
@@ -42,25 +41,38 @@ function Output({
     <Container>
       <GridContainer>
         <GridItem>
-          <Image name="barrier" size="100" />
+          <Image name="fire" size="100" />
         </GridItem>
         <GridItem className="material">
           <Listed
             array={viewMaterial}
             type="material"
+            size={90}
             onItemClick={onItemClick}
           />
         </GridItem>
         <GridItem className="tool">
-          <Listed array={viewTool} type="tool" onItemClick={onItemClick} />
+          <Listed
+            array={viewTool}
+            type="tool"
+            size={90}
+            onItemClick={onItemClick}
+          />
         </GridItem>
         <GridItem className="enchant">
-          <Listed
+          {/* <Listed
             array={viewEnchant}
             type="enchant"
             onItemClick={onItemClick}
             ext="gif"
-          />
+          /> */}
+          {viewEnchant.map((item, index) => (
+            <span key={index}>
+              <Image name="enchanted_book" size={item.size} />
+              {item}
+              {/* <p>{item}</p> */}
+            </span>
+          ))}
         </GridItem>
       </GridContainer>
     </Container>

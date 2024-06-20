@@ -16,6 +16,7 @@ import Headers from "./screen/Headers";
 import Output from "./screen/Output";
 import PrintArray from "./screen/PrintArray";
 import Variable from "./data/data";
+import Modal from "./screen/Modal";
 
 // modules
 
@@ -25,7 +26,29 @@ const l = (msg) => console.log(msg);
 const TIMEZONE = "Asia/Seoul";
 
 function App() {
-  const [isOutput, setIsOutput] = useState(false); // 출력모드 / 입력받는 모드 전환 (조합하는 모드)
+  const [showModal, setShowModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState("null");
+  const [modalMessage, setModalMessage] = useState("null");
+  const [modalDuration, setModalDuration] = useState(3);
+  const [modalImage, setModalImage] = useState("");
+  // const [modalColor, setModalColor] = useState("#f00");
+  const handleShowModal = (title = "Alert !", message, duration, image) => {
+    setModalTitle(title);
+    setModalMessage(message);
+    setModalDuration(duration);
+    // let RESULT_STR ="enchanted_" + viewMaterial[0]? `${viewMaterial[0]}_`: "" + `${viewTool[0]}`;
+    let RESULT_STR = "";
+    RESULT_STR += viewEnchant.length === 0 ? "" : "enchanted_";
+    RESULT_STR += viewMaterial[0] ? `${viewMaterial[0]}_` : "";
+    RESULT_STR += `${viewTool[0]}`;
+    // l(RESULT_STR);
+    setModalImage(RESULT_STR);
+    // setModalColor();
+    setShowModal(true);
+  };
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   const [viewMaterial, setViewMaterial] = useState([]);
   const [viewTool, setViewTool] = useState([]);
@@ -81,27 +104,29 @@ function App() {
     setViewMaterial([]);
     setViewEnchant([]);
   };
-  // 클립보드에 명령어 복사하기
+  // 명령어 생성하기 (처리, 클립보드에 복사)
   const handleClickCreate = async () => {
     let item;
     let RESULT_STR = `${Variable.str_front}`;
 
     // 선택한 Tool 이 아무것도 없다면
     if (viewTool.length === 0) {
-      alert("Please select tool");
+      const msg = "Please select tool";
+      handleShowModal(`Select Tool`, `Please select tool.`, 3, "barrier");
       return;
     }
 
     // 재료가 와야하는 Tool 이라면
-    // l(viewTool);
     item = tool_type.find((item) => item.name === viewTool[0]);
     if (item && !item.stand_alone && viewMaterial.length === 0) {
-      alert("Please select material. \nThis tool can't be stand-alone");
+      handleShowModal(
+        "Please select material.",
+        "This tool can't be stand-alone. \nSelect with material required.",
+        3,
+        "barrier"
+      );
       return;
     }
-    // l(`SUCCESS`);
-    // l(viewMaterial);
-    // l(item);
 
     // 재료 명령어 생성 (재료 필요없는거는 재료 없이 적용)
     RESULT_STR += item.stand_alone
@@ -133,9 +158,15 @@ function App() {
     l(RESULT_STR);
     try {
       await navigator.clipboard.writeText(RESULT_STR);
-      alert(`Copied to Clipboard\n${RESULT_STR}`);
+      handleShowModal(`Copied to Clipboard`, `${RESULT_STR}`, 3);
+      // alert(`Copied to Clipboard\n${RESULT_STR}`);
     } catch (e) {
-      alert(`Copy Failed!\n\n${RESULT_STR}\n${e}`);
+      handleShowModal(
+        `Copy Failed!`,
+        `Safari doesn't support clipboard copy!\n${e}`,
+        3
+      );
+      // alert(`Copy Failed!\n\n${RESULT_STR}\n${e}`);
     }
   };
   // Output.js item clear
@@ -169,14 +200,24 @@ function App() {
     });
   };
 
+  const imageNameProcessing = () => {};
+
   return (
     <Container>
       <div className="App">
+        {/* 팝업을 위한 Modal Components */}
+        <Modal
+          show={showModal}
+          onClose={handleCloseModal}
+          title={modalTitle}
+          message={modalMessage}
+          duration={modalDuration} // n초 후에 자동으로 닫힘
+          image={modalImage}
+        />
         {/* Header Area */}
         {/* <Headers /> */} {/* TODO: 주석 해제할 것 */}
         {/* BODY AREA */}
         <Output
-          cmdState={isOutput}
           // CommandOutputTxt={outText}
           viewMaterial={viewMaterial}
           viewTool={viewTool}
