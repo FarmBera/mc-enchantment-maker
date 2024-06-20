@@ -6,9 +6,37 @@ import Clock from "react-live-clock";
 import ColorFolder from "../data/ColorFolder";
 import diamond from "../icon/diamond.png";
 
-// modules
+// require.context를 사용하여 해당 디렉토리의 모든 이미지를 가져옵니다.
+const importAll = (r) => {
+  let images = {};
+  r.keys().forEach((item, index) => {
+    images[item.replace("./", "")] = r(item);
+  });
+  return images;
+};
 
-// variables
+// '../icon' 경로에서 모든 이미지를 가져옵니다.
+const images = importAll(
+  require.context("../icon", false, /\.(png|jpe?g|gif)$/)
+);
+
+function Image({ name }) {
+  const imgWidth = 20;
+
+  const image = images[name];
+
+  // console.log(image);
+
+  return (
+    <span>
+      {image ? (
+        <img src={image.default} width={imgWidth} alt={name} />
+      ) : (
+        <p>Image not found</p>
+      )}
+    </span>
+  );
+}
 
 function PrintArray({
   toolType,
@@ -19,6 +47,8 @@ function PrintArray({
   handleClickEnchant,
 }) {
   // const [toolType, setToolType] = useState([tool_type]);
+
+  // console.log(images);
 
   const imgWidth = 20;
 
@@ -31,7 +61,8 @@ function PrintArray({
             <ul>
               {toolMaterial.map((item, index) => (
                 <li key={index}>
-                  <img src={diamond} width={imgWidth} />
+                  <Image name={`${item}.png`} />
+                  {/* <img src="../icon/emerald.png" width={imgWidth} /> */}
                   <span onClick={handleClickMaterial}>{item}</span>
                 </li>
               ))}
@@ -53,12 +84,16 @@ function PrintArray({
           <Column>
             <span>Enchantments</span>
             <ul>
-              {enchantList.map((item, index) => (
-                <li key={index}>
-                  <img src={diamond} width={imgWidth} />
-                  <span onClick={handleClickEnchant}>{item.name}</span>
-                </li>
-              ))}
+              {enchantList.length === 0 ? (
+                <span>Please select Filter!</span>
+              ) : (
+                enchantList.map((item, index) => (
+                  <li key={index}>
+                    <img src={diamond} width={imgWidth} />
+                    <span onClick={handleClickEnchant}>{item.name}</span>
+                  </li>
+                ))
+              )}
             </ul>
           </Column>
         </InnerContainer>
@@ -106,5 +141,3 @@ const Column = styled.div`
     background-color: #0ff;
   }
 `;
-
-export default PrintArray;

@@ -7,6 +7,16 @@ import ColorFolder from "../data/ColorFolder";
 import Variable from "../data/data";
 
 import diamond from "../icon/diamond.png";
+import Image from "../modules/Image";
+
+function Listed({ array, type, onItemClick, ext }) {
+  return array.map((item, index) => (
+    <span key={index} onClick={() => onItemClick(item, type)}>
+      <Image name={type === "enchant" ? `${type}ed_book` : item} ext={ext} />
+      {item}
+    </span>
+  ));
+}
 
 function Output({
   cmdState,
@@ -31,30 +41,26 @@ function Output({
     // </div>
     <Container>
       <GridContainer>
-        <GridItem>{Variable.str_front}</GridItem>
+        <GridItem>
+          <Image name="barrier" size="100" />
+        </GridItem>
         <GridItem className="material">
-          {viewMaterial.map((item, index) => (
-            <span key={index} onClick={() => onItemClick(item, "material")}>
-              <img src={diamond} width={imgWidth} />
-              {item}
-            </span>
-          ))}
+          <Listed
+            array={viewMaterial}
+            type="material"
+            onItemClick={onItemClick}
+          />
         </GridItem>
         <GridItem className="tool">
-          {viewTool.map((item, index) => (
-            <span key={index} onClick={() => onItemClick(item, "tool")}>
-              <img src={diamond} width={imgWidth} />
-              {item}
-            </span>
-          ))}
+          <Listed array={viewTool} type="tool" onItemClick={onItemClick} />
         </GridItem>
         <GridItem className="enchant">
-          {viewEnchant.map((item, index) => (
-            <span key={index} onClick={() => onItemClick(item, "enchant")}>
-              <img src={diamond} width={imgWidth} />
-              {item},{" "}
-            </span>
-          ))}
+          <Listed
+            array={viewEnchant}
+            type="enchant"
+            onItemClick={onItemClick}
+            ext="gif"
+          />
         </GridItem>
       </GridContainer>
     </Container>
@@ -70,25 +76,28 @@ const Container = styled.div`
 // Grid 컨테이너 스타일 정의
 const GridContainer = styled.div`
   display: grid;
-  /* 4개의 열로 구성된 그리드 */
-  /* grid-template-columns: repeat(4, 1fr); */
-  grid-template-columns: 1.5fr 1fr 1.2fr 3fr;
+  grid-template-columns: 150px 150px 150px 350px; /* 4개의 고정 너비 열 설정 */
   gap: 10px; /* 그리드 항목 사이의 간격 */
   padding: 20px;
-  max-height: 80px;
+  /* 4개의 열로 구성된 그리드 */
+  /* grid-template-columns: repeat(4, 1fr); */
+  /* grid-template-columns: 1.5fr 1fr 1.2fr 3fr; */
+  /* grid-template-columns: 150px 100px, 120px, 300px; */
+  height: 160px;
+  max-height: 150px;
   max-width: 1000px;
 `;
 
 // Grid 아이템 스타일 정의
 const GridItem = styled.div`
   background-color: #f0f0f0;
-  /* padding: 20px; */
+  padding: 10px;
   padding-top: 10px;
-  padding-bottom: 10px;
+  /* padding-bottom: 10px; */
   border: 1px solid #ccc;
   text-align: center;
   /* top: 0; */
-  max-height: 80px;
+  max-height: 120px;
   overflow: hidden;
 
   &.material {
