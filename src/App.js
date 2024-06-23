@@ -29,26 +29,9 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [modalTitle, setModalTitle] = useState("null");
   const [modalMessage, setModalMessage] = useState("null");
-  const [modalDuration, setModalDuration] = useState(3);
+  const [modalDuration, setModalDuration] = useState(10);
   const [modalImage, setModalImage] = useState("");
-  // const [modalColor, setModalColor] = useState("#f00");
-  const handleShowModal = (title = "Alert !", message, duration, image) => {
-    setModalTitle(title);
-    setModalMessage(message);
-    setModalDuration(duration);
-    // let RESULT_STR ="enchanted_" + viewMaterial[0]? `${viewMaterial[0]}_`: "" + `${viewTool[0]}`;
-    let RESULT_STR = "";
-    RESULT_STR += viewEnchant.length === 0 ? "" : "enchanted_";
-    RESULT_STR += viewMaterial[0] ? `${viewMaterial[0]}_` : "";
-    RESULT_STR += `${viewTool[0]}`;
-    // l(RESULT_STR);
-    setModalImage(RESULT_STR);
-    // setModalColor();
-    setShowModal(true);
-  };
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
+  const [modalColor, setModalColor] = useState(ColorFolder.white);
 
   const [viewMaterial, setViewMaterial] = useState([]);
   const [viewTool, setViewTool] = useState([]);
@@ -60,6 +43,35 @@ function App() {
     chkbox3: false,
     chkbox4: false,
   });
+
+  const handleShowModal = (
+    title = modalTitle,
+    message = modalTitle,
+    txtColor = ColorFolder.red,
+    image
+    // duration = modalDuration
+  ) => {
+    setModalTitle(title);
+    setModalMessage(message);
+    setModalColor(txtColor);
+
+    if (image) {
+      setModalImage(image);
+    } else {
+      let RESULT_STR = "";
+      RESULT_STR += viewEnchant.length === 0 ? "" : "enchanted_";
+      RESULT_STR += viewMaterial[0] ? `${viewMaterial[0]}_` : "";
+      RESULT_STR += `${viewTool[0]}`;
+      // l(RESULT_STR);
+      setModalImage(RESULT_STR);
+    }
+
+    // setModalDuration(duration);
+    setShowModal(true);
+  };
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   // useEffect(() => {}, []);
 
@@ -111,19 +123,27 @@ function App() {
 
     // 선택한 Tool 이 아무것도 없다면
     if (viewTool.length === 0) {
-      const msg = "Please select tool";
-      handleShowModal(`Select Tool`, `Please select tool.`, 3, "barrier");
+      handleShowModal(`Select Tool`, `Please select tool`);
       return;
     }
 
     // 재료가 와야하는 Tool 이라면
     item = tool_type.find((item) => item.name === viewTool[0]);
+
+    // 재료 선택 안했을 때
     if (item && !item.stand_alone && viewMaterial.length === 0) {
       handleShowModal(
-        "Please select material.",
-        "This tool can't be stand-alone. \nSelect with material required.",
-        3,
-        "barrier"
+        "Select Material",
+        "This tool can't be stand-alone\nMaterial selection required"
+      );
+      return;
+    }
+
+    // 재료 필요없는데, 선택했을 때
+    if (item.stand_alone && viewMaterial.length !== 0) {
+      handleShowModal(
+        "Remove Material",
+        "This tool can't be with material. Remove materials"
       );
       return;
     }
@@ -144,11 +164,12 @@ function App() {
       CUSTOM_ENCHANT.push(item.origin);
     }
 
-    // 인첸트된 항목이 없다면
+    // 인첸트된 항목이 없다면 skip
+    // && 최종 복사할 string 생성
     if (CUSTOM_ENCHANT.length === 0) {
-      l(`No Enchant`);
+      // l(`No Enchant`);
     } else {
-      // 최종 복사할 string 생성
+      // 인첸트 커맨드 삽입
       RESULT_STR += `${Variable.str_second}${CUSTOM_ENCHANT.join(",")}${
         Variable.str_end
       }`;
@@ -157,16 +178,18 @@ function App() {
     // 클립보다 복사 과정
     l(RESULT_STR);
     try {
-      await navigator.clipboard.writeText(RESULT_STR);
-      handleShowModal(`Copied to Clipboard`, `${RESULT_STR}`, 3);
-      // alert(`Copied to Clipboard\n${RESULT_STR}`);
+      // TODO: build 전 주석 해제
+      // await navigator.clipboard.writeText(RESULT_STR);
+      handleShowModal(
+        `Copied to Clipboard`,
+        `${RESULT_STR}`,
+        ColorFolder.green
+      );
     } catch (e) {
       handleShowModal(
         `Copy Failed!`,
-        `Safari doesn't support clipboard copy!\n${e}`,
-        3
+        `Clipboard copy supports only Chromium browser !\n${e}`
       );
-      // alert(`Copy Failed!\n\n${RESULT_STR}\n${e}`);
     }
   };
   // Output.js item clear
@@ -211,11 +234,12 @@ function App() {
           onClose={handleCloseModal}
           title={modalTitle}
           message={modalMessage}
+          color={modalColor}
           duration={modalDuration} // n초 후에 자동으로 닫힘
           image={modalImage}
         />
         {/* Header Area */}
-        {/* <Headers /> */} {/* TODO: 주석 해제할 것 */}
+        {/* <Headers /> */} {/* todo-delay: 주석 해제할 것 */}
         {/* BODY AREA */}
         <Output
           // CommandOutputTxt={outText}

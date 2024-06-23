@@ -45,9 +45,9 @@ function Logic() {
   tool = `${selected_shape}_${selected_type}`;
 
   // -----------------------
-  // TODO: 프리셋 만들어두기
+  // todo-delay: 프리셋 만들어두기
 
-  // TODO: 권장값 생성
+  // todo-delay: 권장값 생성
   // -----------------------
   // -----------------------
   let enchantment = "";

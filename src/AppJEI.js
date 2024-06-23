@@ -173,7 +173,7 @@ function AppJEI() {
     <Container>
       <div className="AppJEI">
         {/* Header Area */}
-        {/* <Headers /> */} {/* TODO: 주석 해제할 것 */}
+        {/* <Headers /> */} {/* todo-delay: 주석 해제할 것 */}
         {/* BODY AREA */}
         <Output
           cmdState={isOutput}
