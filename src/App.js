@@ -17,6 +17,7 @@ import Output from "./screen/Output";
 import PrintArray from "./screen/PrintArray";
 import Variable from "./data/data";
 import Modal from "./screen/Modal";
+import { UnselectableTxt } from "./styles/Unselectable";
 
 // modules
 
@@ -123,7 +124,12 @@ function App() {
 
     // 선택한 Tool 이 아무것도 없다면
     if (viewTool.length === 0) {
-      handleShowModal(`Select Tool`, `Please select tool`);
+      handleShowModal(
+        `Select Tool`,
+        `Please select tool`,
+        ColorFolder.red,
+        "barrier"
+      );
       return;
     }
 
@@ -134,7 +140,9 @@ function App() {
     if (item && !item.stand_alone && viewMaterial.length === 0) {
       handleShowModal(
         "Select Material",
-        "This tool can't be stand-alone\nMaterial selection required"
+        "This tool can't be stand-alone\nMaterial selection required",
+        ColorFolder.red,
+        "barrier"
       );
       return;
     }
@@ -143,7 +151,9 @@ function App() {
     if (item.stand_alone && viewMaterial.length !== 0) {
       handleShowModal(
         "Remove Material",
-        "This tool can't be with material. Remove materials"
+        "This tool can't be with material. Remove materials",
+        ColorFolder.red,
+        "barrier"
       );
       return;
     }
@@ -176,10 +186,16 @@ function App() {
     }
 
     // 클립보다 복사 과정
-    l(RESULT_STR);
+    // l(RESULT_STR);
     try {
       // TODO: build 전 주석 해제
-      // await navigator.clipboard.writeText(RESULT_STR);
+      handleShowModal(
+        `Copying to Clipboard...`,
+        `${RESULT_STR}`,
+        ColorFolder.orange,
+        "loading"
+      );
+      await navigator.clipboard.writeText(RESULT_STR);
       handleShowModal(
         `Copied to Clipboard`,
         `${RESULT_STR}`,
@@ -188,7 +204,9 @@ function App() {
     } catch (e) {
       handleShowModal(
         `Copy Failed!`,
-        `Clipboard copy supports only Chromium browser !\n${e}`
+        `Clipboard copy supports only Chromium browser !\n${e}`,
+        ColorFolder.red,
+        "barrier"
       );
     }
   };
@@ -202,7 +220,6 @@ function App() {
       setViewEnchant(viewEnchant.filter((enchant) => enchant !== item));
     }
   };
-
   // 필터 변경 처리
   const handleFilterChange = (e) => {
     // console.log(`${filter.chkbox1}, ${filter.chkbox2}, ${filter.chkbox3}, ${filter.chkbox4}`);
@@ -210,7 +227,6 @@ function App() {
     setFilter({ ...filter, [id]: checked });
     // console.log(`${filter.chkbox1}, ${filter.chkbox2}, ${filter.chkbox3}, ${filter.chkbox4}`);
   };
-
   // 필터링된 인첸트 가져오기
   const getFilteredEnchantments = () => {
     return enchant_list.filter((enchant) => {
@@ -222,8 +238,6 @@ function App() {
       return false;
     });
   };
-
-  const imageNameProcessing = () => {};
 
   return (
     <Container>
@@ -266,7 +280,9 @@ function App() {
         <FilterContainer>
           <div className="filter-container">
             <div className="chkbox-container">
-              <span className="chkbox-title">Enchant Filter</span>
+              <UnselectableTxt>
+                <span className="chkbox-title">Enchant Filter</span>
+              </UnselectableTxt>
               <input
                 type="checkbox"
                 id="chkbox1"
@@ -275,7 +291,7 @@ function App() {
                 onChange={handleFilterChange}
               />
               <label htmlFor="chkbox1" className="chkbox-label">
-                Survival Max
+                <UnselectableTxt>Survival Max</UnselectableTxt>
               </label>
               <input
                 type="checkbox"
@@ -285,7 +301,7 @@ function App() {
                 onChange={handleFilterChange}
               />
               <label htmlFor="chkbox2" className="chkbox-label">
-                up to 10
+                <UnselectableTxt>up to 10</UnselectableTxt>
               </label>
               <input
                 type="checkbox"
@@ -295,7 +311,7 @@ function App() {
                 onChange={handleFilterChange}
               />
               <label htmlFor="chkbox3" className="chkbox-label">
-                up to 100
+                <UnselectableTxt>up to 100</UnselectableTxt>
               </label>
               <input
                 type="checkbox"
@@ -305,7 +321,7 @@ function App() {
                 onChange={handleFilterChange}
               />
               <label htmlFor="chkbox4" className="chkbox-label">
-                Infinite
+                <UnselectableTxt>Infinite</UnselectableTxt>
               </label>
             </div>
           </div>

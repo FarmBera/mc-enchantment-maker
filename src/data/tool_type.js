@@ -56,7 +56,7 @@ const tool_type = [
     stand_alone: true,
   },
   {
-    name: "cutter",
+    name: "shears",
     stand_alone: true,
   },
 ];

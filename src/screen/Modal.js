@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Image from "../modules/Image";
 
 import ColorFolder from "../data/ColorFolder";
+import { UnselectableTxt } from "../styles/Unselectable";
 
 const l = (msg) => console.log(msg);
 
@@ -30,22 +31,24 @@ const Modal = ({ show, onClose, title, message, color, duration, image }) => {
 
   return (
     <Overlay onClick={onClose}>
-      <Container color={color}>
-        <Title color={color}>{title}</Title>
-        <Desc color={color}>
-          {message.split("\n").map((line, index) => (
-            <span key={index}>
-              {line}
-              <br />
-            </span>
-          ))}
-        </Desc>
-        <Image name={image} size={200} />
-        <Btn color={color}>Close</Btn>
-        <Desc color={color}>
-          (This screen will close after {remainingTime}s)
-        </Desc>
-      </Container>
+      <UnselectableTxt>
+        <Container color={color}>
+          <Title color={color}>{title}</Title>
+          <Desc color={color}>
+            {message.split("\n").map((line, index) => (
+              <span key={index}>
+                {line}
+                <br />
+              </span>
+            ))}
+          </Desc>
+          <Image name={image} size={200} />
+          <Btn color={color}>Close</Btn>
+          <Desc color={color}>
+            (This screen will close after {remainingTime}s)
+          </Desc>
+        </Container>
+      </UnselectableTxt>
     </Overlay>
   );
 };

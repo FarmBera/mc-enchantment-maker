@@ -6,6 +6,7 @@ import ColorFolder from "../data/ColorFolder";
 
 import Variable from "../data/data";
 
+// components
 import Image from "../modules/Image";
 
 // 목록 출력해주는 함수

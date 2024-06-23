@@ -2,11 +2,9 @@ import { React, useState, useEffect } from "react";
 import styled from "styled-components";
 import Clock from "react-live-clock";
 
-// color
-import ColorFolder from "../data/ColorFolder";
-
 // modeuls
 import Image from "../modules/Image";
+import { UnselectableTxt } from "../styles/Unselectable";
 
 function PrintArray({
   toolType,
@@ -16,10 +14,6 @@ function PrintArray({
   handleClickMaterial,
   handleClickEnchant,
 }) {
-  // const [toolType, setToolType] = useState([tool_type]);
-
-  // console.log(images);
-
   const imgWidth = 20;
 
   return (
@@ -27,32 +21,41 @@ function PrintArray({
       <OuterContainer>
         <InnerContainer>
           <Column>
-            <span>Tool Material</span>
+            <span className="elementTitle">
+              <UnselectableTxt>Material</UnselectableTxt>
+            </span>
             <ul>
               {toolMaterial.map((item, index) => (
                 <li key={item} onClick={handleClickMaterial}>
                   <Image name={item} />
-                  {/* <img src={diamond} width={imgWidth} /> */}
-                  <span>{item}</span>
+                  <span>
+                    <UnselectableTxt>{item}</UnselectableTxt>
+                  </span>
                 </li>
               ))}
             </ul>
           </Column>
 
           <Column>
-            <span>Tool Type</span>
+            <span className="elementTitle">
+              <UnselectableTxt>Tool Type</UnselectableTxt>
+            </span>
             <ul>
               {toolType.map((item, index) => (
                 <li key={index} onClick={handleClickType}>
                   <Image name={item.name} />
-                  <span>{item.name}</span>
+                  <span>
+                    <UnselectableTxt>{item.name}</UnselectableTxt>
+                  </span>
                 </li>
               ))}
             </ul>
           </Column>
 
           <Column>
-            <span>Enchantments</span>
+            <span className="elementTitle">
+              <UnselectableTxt>Enchantments</UnselectableTxt>
+            </span>
             <ul>
               {enchantList.length === 0 ? (
                 <span>Please select Filter!</span>
@@ -60,7 +63,9 @@ function PrintArray({
                 enchantList.map((item, index) => (
                   <li key={index} onClick={handleClickEnchant}>
                     <Image name="enchanted_book" ext="gif" />
-                    <span>{item.name}</span>
+                    <span>
+                      <UnselectableTxt>{item.name}</UnselectableTxt>
+                    </span>
                   </li>
                 ))
               )}
@@ -99,6 +104,10 @@ const Column = styled.div`
   align-items: center;
   text-align: center;
 
+  .elementTitle {
+    font-size: 25px;
+  }
+
   &:not(:last-child) {
     margin-right: 10px;
   }
@@ -120,6 +129,7 @@ const Column = styled.div`
     padding: 0; // 기본 패딩 제거
     margin: 0; // 기본 마진 제거
     text-align: center;
+    margin-top: 20px;
   }
 
   li {
