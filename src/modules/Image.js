@@ -1,14 +1,14 @@
 import { React, useState, useEffect } from "react";
-import styled from "styled-components";
-import Clock from "react-live-clock";
+// import styled from "styled-components";
 
 import { UnselectableImg } from "../styles/Unselectable";
 
+// 로딩 이미지 미리 불러오기
 const loadingImg = await getImage("loading");
 
 // const l = (msg) => console.log(msg);
 
-/** 이미지 가져와서 return */
+/** 이미지 직접 불러오기 */
 async function getImage(imgName, ext) {
   const module = await import(`../icon/${imgName}.gif`);
   return module.default;
@@ -18,7 +18,7 @@ function Image({ name, ext, size = 30, key }) {
   const [img, setImg] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  /** 이미지 불러오는 과정*/
+  /** 이미지 불러오는 과정 */
   useEffect(() => {
     async function fetchImage(name) {
       // l(name);

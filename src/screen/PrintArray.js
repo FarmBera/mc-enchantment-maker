@@ -1,6 +1,5 @@
-import { React, useState, useEffect } from "react";
+import { React } from "react";
 import styled from "styled-components";
-import Clock from "react-live-clock";
 
 // modeuls
 import Image from "../modules/Image";
@@ -14,12 +13,11 @@ function PrintArray({
   handleClickMaterial,
   handleClickEnchant,
 }) {
-  const imgWidth = 20;
-
   return (
     <div className="PrintArray">
       <OuterContainer>
         <InnerContainer>
+          {/* material area */}
           <Column>
             <span className="elementTitle">
               <UnselectableTxt>Material</UnselectableTxt>
@@ -36,6 +34,7 @@ function PrintArray({
             </ul>
           </Column>
 
+          {/* tool type area */}
           <Column>
             <span className="elementTitle">
               <UnselectableTxt>Tool Type</UnselectableTxt>
@@ -52,6 +51,7 @@ function PrintArray({
             </ul>
           </Column>
 
+          {/* enchantments area */}
           <Column>
             <span className="elementTitle">
               <UnselectableTxt>Enchantments</UnselectableTxt>

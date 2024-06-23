@@ -1,15 +1,20 @@
 import { React, useState, useEffect } from "react";
 import styled from "styled-components";
-import Image from "../modules/Image";
 
+// color
 import ColorFolder from "../data/ColorFolder";
+
+// modules
+import Image from "../modules/Image";
 import { UnselectableTxt } from "../styles/Unselectable";
 
-const l = (msg) => console.log(msg);
+// const l = (msg) => console.log(msg);
 
 const Modal = ({ show, onClose, title, message, color, duration, image }) => {
+  // 실시간 새로고침 시간 변수
   const [remainingTime, setRemainingTime] = useState(duration);
 
+  // 시간 새로고침
   useEffect(() => {
     if (show && duration) {
       setRemainingTime(duration);
@@ -25,10 +30,12 @@ const Modal = ({ show, onClose, title, message, color, duration, image }) => {
     }
   }, [show, duration, onClose]);
 
+  // 보여주지 않을 떄
   if (!show) {
     return null;
   }
 
+  // 팝업 화면 보여주기
   return (
     <Overlay onClick={onClose}>
       <UnselectableTxt>

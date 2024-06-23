@@ -1,13 +1,9 @@
-import { React, useState, useEffect } from "react";
+import { React } from "react";
 import styled from "styled-components";
-
-// color
-import ColorFolder from "../data/ColorFolder";
-
-import Variable from "../data/data";
 
 // components
 import Image from "../modules/Image";
+import { UnselectableTxt } from "../styles/Unselectable";
 
 // 목록 출력해주는 함수
 function Listed({ array, type, onItemClick, ext, size }) {
@@ -19,31 +15,25 @@ function Listed({ array, type, onItemClick, ext, size }) {
         size={size}
       />
       {/* {item} */}
-      <p>{item}</p>
+      <UnselectableTxt>{item}</UnselectableTxt>
     </span>
   ));
 }
 
-function Output({
-  CommandOutputTxt,
-  viewTool,
-  viewMaterial,
-  viewEnchant,
-  onItemClick,
-}) {
-  useEffect(() => {}, []);
+function Output({ viewTool, viewMaterial, viewEnchant, onItemClick }) {
+  // useEffect(() => {}, []);
 
-  const imgWidth = 90;
+  // const imgWidth = 90;
 
   return (
-    // <div className="">
-    //   <h2>COMMAND OUTPUT AREA</h2>
-    // </div>
     <Container>
       <GridContainer>
+        {/* 헤더 아이콘 */}
         <GridItem>
           <Image name="fire" size="100" />
         </GridItem>
+
+        {/* material icon */}
         <GridItem className="material">
           <Listed
             array={viewMaterial}
@@ -52,6 +42,8 @@ function Output({
             onItemClick={onItemClick}
           />
         </GridItem>
+
+        {/* tool icon */}
         <GridItem className="tool">
           <Listed
             array={viewTool}
@@ -60,18 +52,13 @@ function Output({
             onItemClick={onItemClick}
           />
         </GridItem>
+
+        {/* enchant icons */}
         <GridItem className="enchant">
-          {/* <Listed
-            array={viewEnchant}
-            type="enchant"
-            onItemClick={onItemClick}
-            ext="gif"
-          /> */}
           {viewEnchant.map((item, index) => (
             <span key={index}>
               <Image name="enchanted_book" size={item.size} />
-              {item}
-              {/* <p>{item}</p> */}
+              <UnselectableTxt>{item}</UnselectableTxt>
             </span>
           ))}
         </GridItem>
@@ -89,13 +76,12 @@ const Container = styled.div`
 // Grid 컨테이너 스타일 정의
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: 150px 150px 150px 350px; /* 4개의 고정 너비 열 설정 */
-  gap: 10px; /* 그리드 항목 사이의 간격 */
-  padding: 20px;
-  /* 4개의 열로 구성된 그리드 */
   /* grid-template-columns: repeat(4, 1fr); */
   /* grid-template-columns: 1.5fr 1fr 1.2fr 3fr; */
   /* grid-template-columns: 150px 100px, 120px, 300px; */
+  grid-template-columns: 150px 150px 150px 350px; /* 4개의 고정 너비 열 설정 */
+  gap: 10px; /* 그리드 항목 사이의 간격 */
+  padding: 20px;
   height: 160px;
   max-height: 150px;
   max-width: 1000px;
