@@ -7,7 +7,11 @@
 - 가위 이름 cutter VS shears 인지 확인
 - 버그 수정: 3 column 목록에서 사진 클릭하면 이상한 값 들어감
 
-### v0.2.5
+### v0.2.6-dev1
+
+- Header, Footer 삽입
+
+### v0.2.5-rc
 
 - 코드 정리
 

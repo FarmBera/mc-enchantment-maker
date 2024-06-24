@@ -8,15 +8,39 @@ const TIMEZONE = "Asia/Seoul";
 
 function Headers() {
   return (
-    <div className="Headers">
-      <h1>MC Enchant Maker</h1>
-      <h3>
-        <Clock format={"ddd MMM DD"} ticking={false} timezone={TIMEZONE} />
-        {"  "}
-        <Clock format={"HH:mm:ss"} ticking={true} timezone={TIMEZONE} />
-      </h3>
-    </div>
+    <HeaderContainer>
+      <div className="Headers">
+        <span className="h1">MC Enchant Maker</span>
+        <span className="space"></span>
+        <span className="clock">
+          <Clock format={"ddd MMM DD"} ticking={false} timezone={TIMEZONE} />
+          {"  "}
+          <Clock format={"HH:mm:ss"} ticking={true} timezone={TIMEZONE} />
+        </span>
+        {/* <span className="space">
+          <button onClick="">English</button>
+        </span>
+        <span className="space">
+          <button onClick="">Korean</button>
+        </span> */}
+      </div>
+    </HeaderContainer>
   );
 }
+
+const HeaderContainer = styled.div`
+  span {
+    justify-content: space-between;
+  }
+  .space {
+    margin-left: 20px;
+  }
+  .h1 {
+    font-size: 30px;
+    font-weight: bold;
+  }
+  .clock {
+  }
+`;
 
 export default Headers;

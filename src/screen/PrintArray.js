@@ -41,7 +41,7 @@ function PrintArray({
             </span>
             <ul>
               {toolType.map((item, index) => (
-                <li key={index} onClick={handleClickType}>
+                <li key={item.name} onClick={handleClickType}>
                   <Image name={item.name} />
                   <span>
                     <UnselectableTxt>{item.name}</UnselectableTxt>
@@ -61,7 +61,7 @@ function PrintArray({
                 <span>Please select Filter!</span>
               ) : (
                 enchantList.map((item, index) => (
-                  <li key={index} onClick={handleClickEnchant}>
+                  <li key={item.name} onClick={handleClickEnchant}>
                     <Image name="enchanted_book" ext="gif" />
                     <span>
                       <UnselectableTxt>{item.name}</UnselectableTxt>

@@ -12,20 +12,19 @@ import tool_material from "./data/tool_material";
 import enchant_list from "./data/enchant_list";
 
 // screen
-// import Headers from "./screen/Headers";
+import Headers from "./screen/Headers";
 import Output from "./screen/Output";
 import PrintArray from "./screen/PrintArray";
 import Variable from "./data/data";
 import Modal from "./screen/Modal";
 import Buttons from "./screen/Buttons";
 import Filter from "./screen/Filter";
+import Footers from "./screen/Footers";
 
 // modules
-// import { UnselectableTxt } from "./styles/Unselectable";
 
 // variables
-// const l = (msg) => console.log(msg);
-// const TIMEZONE = "Asia/Seoul";
+const l = (msg) => console.log(msg);
 
 function App() {
   const [showModal, setShowModal] = useState(false);
@@ -46,6 +45,8 @@ function App() {
     chkbox3: false,
     chkbox4: false,
   });
+
+  // useEffect(() => {}, []);
 
   const handleShowModal = (
     title = modalTitle,
@@ -75,13 +76,12 @@ function App() {
     setShowModal(false);
   };
 
-  // useEffect(() => {}, []);
-
   // 하단 항목 클릭 시,
   const handleClickType = (e) => setViewTool([e.target.textContent]);
   const handleClickMaterial = (e) => setViewMaterial([e.target.textContent]);
   const handleClickEnchant = (e) => {
     let item = e.target.textContent;
+    l(e.target.id);
 
     // 중복 항목이라면 추가하지 않음
     if (!viewEnchant.includes(item)) setViewEnchant([...viewEnchant, item]);
@@ -242,7 +242,8 @@ function App() {
           image={modalImage}
         />
         {/* Header Area */}
-        {/* <Headers /> */} {/* todo-delay: 주석 해제할 것 */}
+        <Headers />
+        {/* todo-delay: 주석 해제할 것 */}
         {/* BODY AREA */}
         <Output
           viewMaterial={viewMaterial}
@@ -269,6 +270,7 @@ function App() {
           handleClickMaterial={handleClickMaterial}
           handleClickEnchant={handleClickEnchant}
         />
+        <Footers />
       </div>
     </Container>
   );
