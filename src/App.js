@@ -20,11 +20,12 @@ import Modal from "./screen/Modal";
 import Buttons from "./screen/Buttons";
 import Filter from "./screen/Filter";
 import Footers from "./screen/Footers";
+import CmdMode from "./screen/CmdMode";
 
 // modules
 
 // variables
-const l = (msg) => console.log(msg);
+// const l = (msg) => console.log(msg);
 
 function App() {
   const [showModal, setShowModal] = useState(false);
@@ -46,8 +47,12 @@ function App() {
     chkbox4: false,
   });
 
+  const modeBtnValue = ["Single", "Multi"];
+  const [modeIdx, setModeIdx] = useState(0);
+
   // useEffect(() => {}, []);
 
+  // 팝업 화면 부분
   const handleShowModal = (
     title = modalTitle,
     message = modalTitle,
@@ -81,7 +86,7 @@ function App() {
   const handleClickMaterial = (e) => setViewMaterial([e.target.textContent]);
   const handleClickEnchant = (e) => {
     let item = e.target.textContent;
-    l(e.target.id);
+    // l(e.target.id);
 
     // 중복 항목이라면 추가하지 않음
     if (!viewEnchant.includes(item)) setViewEnchant([...viewEnchant, item]);
@@ -108,8 +113,12 @@ function App() {
 
   // 명령어 생성 버튼 (처리, 클립보드에 복사)
   const handleClickCreate = async () => {
+    // 복사중 메시지 (ing...)
+    handleShowModal(`Generating Command...`, "", ColorFolder.orange, "loading");
+
     let item;
-    let RESULT_STR = `${Variable.str_front}`;
+    let RESULT_STR;
+    let CUSTOM_ENCHANT = []; // 인첸트 항목 저장할 배열
 
     // 선택한 Tool 이 아무것도 없다면
     if (viewTool.length === 0) {
@@ -147,20 +156,33 @@ function App() {
       return;
     }
 
-    // 재료 명령어 생성
-    RESULT_STR += item.stand_alone
-      ? `${item.name}` // 재료 필요 없음
-      : `${viewMaterial[0]}_${item.name}`; // 재료 필요 있음
-
-    // 인첸트 처리 시작
-
-    let CUSTOM_ENCHANT = []; // 인첸트 항목 저장할 배열
-
     // 저장된 인첸트 항목 command 뽑아오기
     for (let i = 0; i < viewEnchant.length; i++) {
       let itemName = viewEnchant[i];
       let item = enchant_list.find((enchant) => enchant.name === itemName);
       CUSTOM_ENCHANT.push(item.origin);
+    }
+
+    // 싱글 플레이어 모드일 때
+    if (modeIdx == 0) {
+      RESULT_STR = `${Variable.str_front}`;
+
+      // 재료
+      RESULT_STR += item.stand_alone
+        ? `${item.name}` // 재료 필요 없음
+        : `${viewMaterial[0]}_${item.name}`; // 재료 필요 있음
+    }
+    // 멀티 플레이어 모드일 때
+    else if (modeIdx == 1) {
+      RESULT_STR = `/give ${Variable.nickname} `;
+
+      // 재료
+      RESULT_STR += item.stand_alone
+        ? `${item.name}` // 재료 필요 없음
+        : `${viewMaterial[0]}_${item.name}`; // 재료 필요 있음
+
+      // 수량
+      RESULT_STR += " 1 ";
     }
 
     // 인첸트된 항목이 1개 이상 있다면
@@ -173,13 +195,13 @@ function App() {
 
     // 클립보다 복사 과정
     try {
-      // 복사중 메시지 (ing...)
-      handleShowModal(
-        `Copying to Clipboard...`,
-        `${RESULT_STR}`,
-        ColorFolder.orange,
-        "loading"
-      );
+      // // 복사중 메시지 (ing...)
+      // handleShowModal(
+      //   `Copying to Clipboard...`,
+      //   `${RESULT_STR}`,
+      //   ColorFolder.orange,
+      //   "loading"
+      // );
       // 클립보드 복사
       await navigator.clipboard.writeText(RESULT_STR);
       // 복사 완료 메시지
@@ -228,6 +250,11 @@ function App() {
     });
   };
 
+  // 모드 선택 (싱글플레이 / 멀티플레이)
+  const handleToggleText = () => {
+    setModeIdx((prevIdx) => (prevIdx + 1) % modeBtnValue.length);
+  };
+
   return (
     <Container>
       <div className="App">
@@ -244,12 +271,19 @@ function App() {
         {/* Header Area */}
         <Headers />
         {/* todo-delay: 주석 해제할 것 */}
+
         {/* BODY AREA */}
+        {/*  */}
         <Output
           viewMaterial={viewMaterial}
           viewTool={viewTool}
           viewEnchant={viewEnchant}
           onItemClick={handleItemClick}
+        />
+        {/*  */}
+        <CmdMode
+          handleToggleText={handleToggleText}
+          btnValue={modeBtnValue[modeIdx]}
         />
         {/*  */}
         <Buttons
