@@ -120,7 +120,7 @@ function App() {
     let RESULT_STR;
     let CUSTOM_ENCHANT = []; // 인첸트 항목 저장할 배열
 
-    // 선택한 Tool 이 아무것도 없다면
+    // err: 선택한 Tool 이 아무것도 없다면
     if (viewTool.length === 0) {
       handleShowModal(
         `Select Tool`,
@@ -131,10 +131,10 @@ function App() {
       return;
     }
 
-    // Tool 찾기
+    // tool 찾기
     item = tool_type.find((item) => item.name === viewTool[0]);
 
-    // 재료 필요한 tool 인데, 선택 안함
+    // err: 재료 필요한 tool 인데, 선택 안함
     if (item && !item.stand_alone && viewMaterial.length === 0) {
       handleShowModal(
         "Select Material",
@@ -145,7 +145,7 @@ function App() {
       return;
     }
 
-    // 재료 필요없는데 선택
+    // err: 재료 필요없는데 선택
     if (item.stand_alone && viewMaterial.length !== 0) {
       handleShowModal(
         "Remove Material",
@@ -188,12 +188,13 @@ function App() {
     // 인첸트된 항목이 1개 이상 있다면
     if (CUSTOM_ENCHANT.length > 0) {
       // 인첸트 커맨드 삽입
+      // RESULT_STR += `${Variable.str_second}${CUSTOM_ENCHANT.join(",")}${Variable.str_end}`;
       RESULT_STR += `${Variable.str_second}${CUSTOM_ENCHANT.join(",")}${
         Variable.str_end
       }`;
     }
 
-    // 클립보다 복사 과정
+    // copy to clipboard
     try {
       // // 복사중 메시지 (ing...)
       // handleShowModal(
@@ -211,7 +212,7 @@ function App() {
         ColorFolder.green
       );
     } catch (e) {
-      // 복사에 실패했을 때
+      // failed to save clipboard
       handleShowModal(
         `Copy Failed!`,
         `Clipboard copy supports only Chromium browser !\n${e}`,

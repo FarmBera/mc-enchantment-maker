@@ -22,7 +22,7 @@ const PrintArray = (list) => {
   }
 };
 
-function Logic() {
+function CreateLogic() {
   // let result = f"str_front"
   let result = `${userVariable.str_front}`;
 
@@ -41,7 +41,6 @@ function Logic() {
   SELECTION = userInputInt("Select Tool Type");
   const selected_type = tool_type[SELECTION];
 
-  // tool = f"{selected_shape}_{selected_type}"
   tool = `${selected_shape}_${selected_type}`;
 
   // -----------------------
@@ -89,4 +88,4 @@ function Logic() {
   return <div className="Logic">hello</div>;
 }
 
-export default Logic;
+export default CreateLogic;
